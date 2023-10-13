@@ -1,8 +1,24 @@
 #include <stdio.h>
-#include <malloc.h>
 #include <string.h>
 #include <ctype.h>
-void ToTen(char *x){
+#include <math.h>
+
+
+float ToTen(char *x, int b1){
+   int dot = strlen(x);
+   float res = 0;
+   for (int i = 0; i < strlen(x); i++)
+       if (x[i] == '.')
+           dot = i;
+   for (int i = dot - 1, degree = 0; i >= 0; i--, degree++){
+       if (x[i] >= '0' &&  x[i] <= '9')
+           res += ((int) x[i] - '0') * pow(b1, degree);
+       else{
+           res += ((int) x[i] - 55) * pow(b1, degree);
+       }
+   }
+    return res;
+
 
 }
 
@@ -34,6 +50,7 @@ int checkXforError(char *x, int b1){
     }
 }
 
+
 int checkNumSys(int b1, int b2){
     if (b1 < 2 || b1 > 16 || b2 < 2 || b2 > 16)
         return 0;
@@ -43,6 +60,7 @@ int checkNumSys(int b1, int b2){
 
 int main(){
     int b1, b2;
+    float digit10;
     char x[13];
     scanf("%d %d\n", &b1, &b2);
     if (checkNumSys(b1, b2) == 0) {
@@ -55,7 +73,8 @@ int main(){
         printf("bad input");
         return 0;
     }
+    digit10 = ToTen(x, b1);
+    printf("%f", digit10);
 
-    ToTen(x);
     return 0;
 }
