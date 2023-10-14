@@ -3,8 +3,7 @@
 #include <ctype.h>
 #include <math.h>
 
-
-float ToTen(char *x, int b1){
+double ToTen(char *x, int b1){
    int dot = strlen(x);
    float res = 0;
    for (int i = 0; i < strlen(x); i++)
@@ -60,7 +59,7 @@ int checkNumSys(int b1, int b2){
 
 int main(){
     int b1, b2;
-    float digit10;
+    double digit10;
     char x[13];
     scanf("%d %d\n", &b1, &b2);
     if (checkNumSys(b1, b2) == 0) {
