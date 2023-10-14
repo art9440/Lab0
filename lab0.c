@@ -2,10 +2,12 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
+#include <malloc.h>
+
 
 double ToTen(char *x, int b1){
    int dot = strlen(x);
-   float res = 0;
+   double res = 0;
    for (int i = 0; i < strlen(x); i++)
        if (x[i] == '.')
            dot = i;
@@ -16,8 +18,26 @@ double ToTen(char *x, int b1){
            res += ((int) x[i] - 55) * pow(b1, degree);
        }
    }
+   for (int i = dot + 1, degree = -1; i < strlen(x); i++, degree--){
+       if (x[i] >= '0' &&  x[i] <= '9')
+           res += ((int) x[i] - '0') * pow(b1, degree);
+       else{
+           res += ((int) x[i] - 55) * pow(b1, degree);
+       }
+   }
     return res;
+}
 
+
+double ToSysb2(double digit10, int b2){
+    int *arr1, *arr2;
+    double integer, fraction;
+    arr1 = (int*) malloc( sizeof(int));
+    arr2 = (int*) malloc( sizeof(int));
+    fraction = modf(digit10, &integer);
+
+
+    }
 
 }
 
@@ -59,7 +79,7 @@ int checkNumSys(int b1, int b2){
 
 int main(){
     int b1, b2;
-    double digit10;
+    double digit10, total;
     char x[13];
     scanf("%d %d\n", &b1, &b2);
     if (checkNumSys(b1, b2) == 0) {
@@ -73,7 +93,7 @@ int main(){
         return 0;
     }
     digit10 = ToTen(x, b1);
-    printf("%f", digit10);
-
+    total = ToSysb2(digit10, b2);
+    printf("%lf", total);
     return 0;
 }
