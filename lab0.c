@@ -65,6 +65,9 @@ void ToSysb2(double digit10, int b2) {
         res =(char*)realloc(res,reslen * sizeof(char));
     }
     perevorot(res);
+    for (int i = 0; i < strlen(res); ++i)
+        printf("%c", res[i]);
+
     char *resfrac = (char*) malloc(sizeof(char));
     int fraclen = 0;
     if (fraction > 0){
@@ -85,12 +88,10 @@ void ToSysb2(double digit10, int b2) {
                 resfrac[i + 1] = '\0';
                 resfrac = (char*)realloc(resfrac, fraclen * sizeof(char));
             }
-
-        printf("%s%s", res, resfrac);
+        for(int i = 0; i < strlen(resfrac) - 1 && i < 13; i++)
+            printf("%c", resfrac[i]);
 
     }
-    else
-        printf("%s", res);
 }
 
 
