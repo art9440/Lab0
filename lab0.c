@@ -27,12 +27,15 @@ double ToTen(char *x, int b1){
    }
     return res;
 }
+
+
 char getChar(long long int num){
     if(num >= 0 && num <= 9)
         return num + '0';
     else
         return num + '0' + 7;
 }
+
 
 void ToSysb2(double digit10, int b2) {
     long long int integer = (long long int) digit10;
@@ -45,11 +48,10 @@ void ToSysb2(double digit10, int b2) {
         res[reslen] = '0';
         res[reslen + 1] = '\0';
     }
-
     while (integer > 0){
         res[reslen] = getChar(integer % b2);
         res[reslen + 1] = '\0';
-        integer  /= b2;
+        integer /= b2;
         reslen++;
         res =(char*)realloc(res,reslen * sizeof(char));
     }
@@ -73,18 +75,12 @@ void ToSysb2(double digit10, int b2) {
             for (int i = fraclen;i < 13;i++){
                 resfrac[i] = '0';
                 resfrac[i + 1] = '\0';
-                resfrac = (char*)realloc(resfrac, i * sizeof(char));
+                resfrac = (char*)realloc(resfrac, fraclen * sizeof(char));
             }
-        for (int i = 0; i < strlen(resfrac) && i < 12; i++)
+        for (int i = 0; i < strlen(resfrac) && i < 13; i++)
             printf("%c", resfrac[i]);
 
     }
-
-
-
-
-
-
 }
 
 
@@ -126,7 +122,7 @@ int checkNumSys(int b1, int b2){
 int main(){
     int b1, b2;
     double digit10;
-    char x[13];
+    char x[14];
     scanf("%d %d\n", &b1, &b2);
     if (checkNumSys(b1, b2) == 0) {
         printf("bad input");
