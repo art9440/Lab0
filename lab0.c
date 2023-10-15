@@ -63,8 +63,20 @@ void ToSysb2(double digit10, int b2) {
         fraclen++;
         resfrac = (char*)realloc(resfrac,fraclen * sizeof(char));
         while (fraction != 0){
-            resfrac[fr]
+            resfrac[fraclen] = getChar(fraction * b2);
+            resfrac[fraclen + 1] = '\0';
+            fraclen++;
+            fraction = (fraction * b2) - (int)(fraction * b2);
+            resfrac = (char*)realloc(resfrac, fraclen * sizeof(char));
         }
+        if (fraclen < 13)
+            for (int i = fraclen;i < 13;i++){
+                resfrac[i] = '0';
+                resfrac[i + 1] = '\0';
+                resfrac = (char*)realloc(resfrac, i * sizeof(char));
+            }
+        for (int i = 0; i < strlen(resfrac) && i < 12; i++)
+            printf("%c", resfrac[i]);
 
     }
 
@@ -127,7 +139,6 @@ int main(){
         return 0;
     }
     digit10 = ToTen(x, b1);
-    printf("%lf\n", digit10);
     ToSysb2(digit10, b2);
 
     return 0;
