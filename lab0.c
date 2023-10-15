@@ -37,6 +37,15 @@ char getChar(long long int num){
 }
 
 
+void perevorot(char *res){
+    char tempo;
+    for (int i = 0; i < strlen(res) / 2; i++){
+        tempo = res[i];
+        res[i] = res[strlen(res) - i - 1];
+        res[strlen(res) - i - 1] = tempo;
+    }
+}
+
 void ToSysb2(double digit10, int b2) {
     long long int integer = (long long int) digit10;
     double fraction = digit10 - integer;
@@ -55,8 +64,7 @@ void ToSysb2(double digit10, int b2) {
         reslen++;
         res =(char*)realloc(res,reslen * sizeof(char));
     }
-    for (int i = strlen(res); i >= 0; i--)
-        printf("%c", res[i]);
+    perevorot(res);
     char *resfrac = (char*) malloc(sizeof(char));
     int fraclen = 0;
     if (fraction > 0){
@@ -77,10 +85,12 @@ void ToSysb2(double digit10, int b2) {
                 resfrac[i + 1] = '\0';
                 resfrac = (char*)realloc(resfrac, fraclen * sizeof(char));
             }
-        for (int i = 0; i < strlen(resfrac) && i < 13; i++)
-            printf("%c", resfrac[i]);
+
+        printf("%s%s", res, resfrac);
 
     }
+    else
+        printf("%s", res);
 }
 
 
@@ -95,10 +105,14 @@ int checkXforError(char *x, int b1){
     if (strlen(x) == 0 || strlen(x) > 13)
         return 0;
     if (b1 < 10) {
-        for (int i = 0; i < strlen(x); i++)
-            if ((int) x[i] > (int)((b1 - 1) + '0'))
+        for (int i = 0; i < strlen(x); i++) {
+            if (x[i] == '.' && x[i + 1] == '\0' || x[0] == '.' && x[i + 1] == '.' ||
+            x[0] == '.' && x[1] == '0')
+                return 0;
+            if ((int) x[i] > (int) ((b1 - 1) + '0'))
                 if (x[i] != '.')
                     return 0;
+        }
 
         return 1;
     }
