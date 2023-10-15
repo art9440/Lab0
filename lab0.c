@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
+#include <malloc.h>
 
 
 double ToTen(char *x, int b1){
@@ -26,39 +27,52 @@ double ToTen(char *x, int b1){
    }
     return res;
 }
-
-char getChar(int num) {
-    if(num >= 0 && num <= 9) {
+char getChar(long long int num){
+    if(num >= 0 && num <= 9)
         return num + '0';
-    } else {
-        return num - 10 + 'A';
-    }
+    else
+        return num + '0' + 7;
 }
 
 void ToSysb2(double digit10, int b2) {
-    int integer = (int) digit10;
-    double fraction = digit10 - (double)integer;
-    int arr1[100];
-    int arr2[100];
-    int i = 0;
-    do{
-        arr1[i] = integer % b2;
-        integer /= b2;
-        i++;
-    }while (integer > 0);
+    long long int integer = (long long int) digit10;
+    double fraction = digit10 - integer;
+    char *res;
+    int reslen = 0;
+    res = (char*) malloc(sizeof(char));
+    res[0]='\0';
+    if (integer == 0){
+        res[reslen] = '0';
+        res[reslen + 1] = '\0';
+    }
 
-    int j = 0;
-        while (j < 12){
-            fraction *= b2;
-            arr2[j] = (int)fraction;
-            fraction -=(int)fraction;
-            j++;
+    while (integer > 0){
+        res[reslen] = getChar(integer % b2);
+        res[reslen + 1] = '\0';
+        integer  /= b2;
+        reslen++;
+        res =(char*)realloc(res,reslen * sizeof(char));
+    }
+    for (int i = strlen(res); i >= 0; i--)
+        printf("%c", res[i]);
+    char *resfrac = (char*) malloc(sizeof(char));
+    int fraclen = 0;
+    if (fraction > 0){
+        resfrac[fraclen] = '.';
+        resfrac[fraclen + 1] = '\0';
+        fraclen++;
+        resfrac = (char*)realloc(resfrac,fraclen * sizeof(char));
+        while (fraction != 0){
+            resfrac[fr]
         }
-    for (int k = i - 1; k >= 0; k--)
-        printf("%c", getChar(arr1[k]));
-    printf(".");
-    for (int k = 0; k < j; k++)
-        printf("%c", getChar((int) arr2[k]));
+
+    }
+
+
+
+
+
+
 }
 
 
@@ -113,6 +127,7 @@ int main(){
         return 0;
     }
     digit10 = ToTen(x, b1);
+    printf("%lf\n", digit10);
     ToSysb2(digit10, b2);
 
     return 0;
