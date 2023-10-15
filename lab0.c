@@ -2,7 +2,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include <malloc.h>
 
 
 double ToTen(char *x, int b1){
@@ -28,17 +27,38 @@ double ToTen(char *x, int b1){
     return res;
 }
 
-
-double ToSysb2(double digit10, int b2){
-    int *arr1, *arr2;
-    double integer, fraction;
-    arr1 = (int*) malloc( sizeof(int));
-    arr2 = (int*) malloc( sizeof(int));
-    fraction = modf(digit10, &integer);
-
-
+char getChar(int num) {
+    if(num >= 0 && num <= 9) {
+        return num + '0';
+    } else {
+        return num - 10 + 'A';
     }
+}
 
+void ToSysb2(double digit10, int b2) {
+    int integer = (int) digit10;
+    double fraction = digit10 - (double)integer;
+    int arr1[100];
+    int arr2[100];
+    int i = 0;
+    do{
+        arr1[i] = integer % b2;
+        integer /= b2;
+        i++;
+    }while (integer > 0);
+
+    int j = 0;
+        while (j < 12){
+            fraction *= b2;
+            arr2[j] = (int)fraction;
+            fraction -=(int)fraction;
+            j++;
+        }
+    for (int k = i - 1; k >= 0; k--)
+        printf("%c", getChar(arr1[k]));
+    printf(".");
+    for (int k = 0; k < j; k++)
+        printf("%c", getChar((int) arr2[k]));
 }
 
 
@@ -79,7 +99,7 @@ int checkNumSys(int b1, int b2){
 
 int main(){
     int b1, b2;
-    double digit10, total;
+    double digit10;
     char x[13];
     scanf("%d %d\n", &b1, &b2);
     if (checkNumSys(b1, b2) == 0) {
@@ -93,7 +113,7 @@ int main(){
         return 0;
     }
     digit10 = ToTen(x, b1);
-    total = ToSysb2(digit10, b2);
-    printf("%lf", total);
+    ToSysb2(digit10, b2);
+
     return 0;
 }
