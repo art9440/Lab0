@@ -65,7 +65,7 @@ void ToSysb2(double digit10, int b2) {
         res =(char*)realloc(res,reslen * sizeof(char));
     }
     perevorot(res);
-    for (int i = 0; i < strlen(res); ++i)
+    for (int i = 0; i < strlen(res); i++)
         printf("%c", res[i]);
 
     char *resfrac = (char*) malloc(sizeof(char));
@@ -108,7 +108,7 @@ int checkXforError(char *x, int b1){
     if (b1 < 10) {
         for (int i = 0; i < strlen(x); i++) {
             if (x[i] == '.' && x[i + 1] == '\0' || x[0] == '.' && x[i + 1] == '.' ||
-            x[0] == '.' && x[1] == '0')
+            x[0] == '.' && x[1] == '0' || ispunct(x[i]) && x[i] != '.')
                 return 0;
             if ((int) x[i] > (int) ((b1 - 1) + '0'))
                 if (x[i] != '.')
