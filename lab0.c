@@ -37,15 +37,6 @@ char getChar(long long int num){
 }
 
 
-void perevorot(char *res){
-    char tempo;
-    for (int i = 0; i < strlen(res) / 2; i++){
-        tempo = res[i];
-        res[i] = res[strlen(res) - i - 1];
-        res[strlen(res) - i - 1] = tempo;
-    }
-}
-
 void ToSysb2(double digit10, int b2) {
     long long int integer = (long long int) digit10;
     double fraction = digit10 - integer;
@@ -64,8 +55,7 @@ void ToSysb2(double digit10, int b2) {
         reslen++;
         res =(char*)realloc(res,reslen * sizeof(char));
     }
-    perevorot(res);
-    for (int i = 0; i < strlen(res); i++)
+    for (int i = strlen(res) - 1; i > 0; i--)
         printf("%c", res[i]);
 
     char *resfrac = (char*) malloc(sizeof(char));
