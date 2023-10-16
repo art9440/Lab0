@@ -105,26 +105,35 @@ void upLetter(char *x){
 int checkXforError(char *x, int b1){
     if (strlen(x) == 0 || strlen(x) > 13)
         return 0;
+    int countDot = 0;
     if (b1 < 10) {
         for (int i = 0; i < strlen(x); i++) {
+            if (x[i] == '.')
+                countDot++;
             if (x[i] == '.' && x[i + 1] == '\0' || x[0] == '.' && x[i + 1] == '.' ||
             x[0] == '.' && x[1] == '0' ||
-            ispunct(x[i]) && x[i] != '.' || x[i] == '.' && x[i + 1] == '.')
+            ispunct(x[i]) && x[i] != '.')
                 return 0;
             if ((int) x[i] > (int) ((b1 - 1) + '0'))
                 if (x[i] != '.')
                     return 0;
         }
-
+        if (countDot > 1)
+            return 0;
         return 1;
     }
     else if (b1 > 10 && b1 < 17){
-        for (int i = 0; i < strlen(x); i++)
+        for (int i = 0; i < strlen(x); i++) {
+            if (x[i] == '.')
+                countDot++;
             if (x[i] - 'A' + 10 >= b1 && isalnum(x[i]) && x[i] != '.')
                 return 0;
-
+        }
+        if (countDot > 1)
+            return 0;
         return 1;
     }
+    return 0;
 }
 
 
